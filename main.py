@@ -1,53 +1,59 @@
 class Robot:
-  def __init__(self, name, energy_consumption):
-    self.name = name
-    self.energy_consumption = energy_consumption
+    def __init__(self, name, energy_consumption):
+        """
+        Initialize a Robot with a name and energy consumption.
 
-    print("Hello world")
+        Args:
+            name (str): The name of the robot.
+            energy_consumption (str): The energy consumption as a string.
 
-  def great(self):
-    print("my name is:", self.name)
+        """
+        self.name = name
+        self.energy_consumption = energy_consumption
 
-  def sprint_energy(self):
-    print("My energy consumption is:", self.energy_consumption)  
-
-
-cam = Robot("cam", "0.5%")
-cam.great()
-cam.sprint_energy()
-
-julyx = Robot("julyx", "2%")
-julyx.great()
-julyx.sprint_energy()
-
+    def display_info(self):
+        """Display information about the robot."""
+        print(f"Robot Name: {self.name}")
+        print(f"Energy Consumption: {self.energy_consumption}")
 
 class Part:
     def __init__(self, name, attack_level, defense_level, energy_consumption):
+        """
+        Initialize a Part with name, attack level, defense level, and energy consumption.
+
+        Args:
+            name (str): The name of the part.
+            attack_level (int): The attack level.
+            defense_level (int): The defense level.
+            energy_consumption (str): The energy consumption as a string.
+
+        """
         self.name = name
         self.attack_level = attack_level
         self.defense_level = defense_level
         self.energy_consumption = energy_consumption
-        print("My name is:", self.name)
 
-    def get_status_dict(self):
-        print("Nivel de ataque es:", self.attack_level)
+    def display_info(self):
+        """Display information about the part."""
+        print(f"Part Name: {self.name}")
+        print(f"Attack Level: {self.attack_level}")
+        print(f"Defense Level: {self.defense_level}")
+        print(f"Energy Consumption: {self.energy_consumption}")
 
-    def reduce_defense(self):
-        print("Nivel de defensa:", self.defense_level)
+if __name__ == "__main__":
+    cam = Robot("Cam", "0.5%")
+    print("Robot Cam:")
+    cam.display_info()
 
-    def is_available(self):
-        print("disponible:", self.energy_consumption)
-        
+    julyx = Robot("Julyx", "2%")
+    print("Robot Julyx:")
+    julyx.display_info()
 
+    cam_part = Part("Cam Part", 90, 100, "Yes")
+    print("Part Cam:")
+    cam_part.display_info()
 
-cam = Part("cam", 90, 100, "Yes")
-
-cam.get_status_dict()
-cam.reduce_defense()
-cam.is_available()
-
-julyx = Part("julyx", 95, 90, "Yes")
-julyx.get_status_dict()
-julyx.reduce_defense()
-julyx.is_available()
+    julyx_part = Part("Julyx Part", 95, 90, "Yes")
+    print("Part Julyx:")
+    julyx_part.display_info()
 
