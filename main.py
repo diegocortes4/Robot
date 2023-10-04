@@ -65,3 +65,42 @@ if __name__ == "__main__":
     cam.display_info()
     cam_part.display_info()
 
+
+
+    def heal(self):
+        if "Med Kit" in [part.name for part in self.inventory]:  
+            print(f"{self.name} uses a 'Med Kit' to heal.")
+            self.energy += 20  # Increase energy by 20%
+            print(f"{self.name}'s energy is now {self.energy}%.")
+        else:
+            print(f"{self.name} does not have a 'Med Kit' to heal.")
+
+# ...
+
+if __name__ == "__main__":
+    cam = Robot("Cam", "0.5%")
+    cam_part = Part("Cam Part", 90, 100, "Yes")
+    med_kit = Part("Med Kit", 0, 0, "Yes")  # Add a "Med Kit" to the available parts
+
+    print("Robot Cam:")
+    cam.display_info()
+    print()
+
+    print("Part Cam:")
+    cam_part.display_info()
+    print()
+
+    cam.add_to_inventory(cam_part)
+    cam.add_to_inventory(med_kit)  # Add a "Med Kit" to Cam's inventory
+
+    print("Robot Cam's Inventory:")
+    for item in cam.inventory:
+        item.display_info()
+
+    print()
+    cam.attack(cam_part)
+    cam.display_info()
+    cam_part.display_info()
+
+    print()
+    cam.heal()  # Attempt to heal with a "Med Kit"
