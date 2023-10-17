@@ -88,6 +88,18 @@ class Robot:
     def is_game_over(self):
         return self.energy <= 0
 
+    def repair_part(self, part_name):
+        for part in self.inventory:
+            if part.name == part_name:
+                if self.energy >= 20:  # Require 20 energy to perform a repair
+                    self.energy -= 20
+                    part.restore_defense()  # Call the method to restore defense
+                    print(f"{self.name} repairs {part_name}, restoring some defense.")
+                else:
+                    print(f"{self.name} does not have enough energy to repair {part_name}.")
+                return
+        print(f"{self.name} does not have {part_name} in their inventory for repair.")
+
 class Part:
     def __init__(self, name, attack_level, defense_level, energy_consumption):
         self.name = name
@@ -105,7 +117,11 @@ class Part:
         print(f"{self.name}'s defense level reduced by 10.")
         self.defense_level -= 10
 
-# The main part of the code remains unchanged.
+    def restore_defense(self):
+        print(f"{self.name}'s defense is partially restored by 10.")
+        self.defense_level += 10
+
+
 
 if __name__ == "__main__":
     cam = Robot("Cam", "0.5%")
@@ -132,4 +148,6 @@ if __name__ == "__main__":
         cam_part.display_info()
         print()
 
-    print(f"{cam.name} has run out of energy. Game over!")
+    cam.repair_part("Cam Part")  # Perform a repair
+    cam.display_info()
+    cam_part.display_info()
