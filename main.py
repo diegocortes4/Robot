@@ -71,6 +71,23 @@ class Robot:
             self.add_to_inventory(found_part)
             print(f"{self.name} found a mysterious part in a lucky event and added it to the inventory.")
 
+    def use_special_ability(self, part):
+        # Add special abilities here
+        pass
+
+    def part_upgrade(self, part_name):
+        for part in self.inventory:
+            if part.name == part_name and self.xp >= 50:
+                self.xp -= 50
+                part.attack_level += 10
+                part.defense_level += 10
+                print(f"{self.name} spent 50 XP to upgrade {part_name}.")
+                return
+        print(f"{self.name} cannot upgrade {part_name} or does not have enough XP.")
+
+    def is_game_over(self):
+        return self.energy <= 0
+
 class Part:
     def __init__(self, name, attack_level, defense_level, energy_consumption):
         self.name = name
@@ -87,6 +104,8 @@ class Part:
     def reduce_defense(self):
         print(f"{self.name}'s defense level reduced by 10.")
         self.defense_level -= 10
+
+# The main part of the code remains unchanged.
 
 if __name__ == "__main__":
     cam = Robot("Cam", "0.5%")
@@ -106,12 +125,11 @@ if __name__ == "__main__":
     cam.display_inventory()
     print()
 
-    cam.random_event()
+    while not cam.is_game_over():
+        cam.random_event()
+        cam.attack(cam_part)
+        cam.display_info()
+        cam_part.display_info()
+        print()
 
-    cam.attack(cam_part)
-    cam.display_info()
-    cam_part.display_info()
-    print()
-
-    cam.recharge_energy(20)
-    cam.display_info()
+    print(f"{cam.name} has run out of energy. Game over!")
