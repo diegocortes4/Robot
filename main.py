@@ -5,12 +5,12 @@ class Robot:
     def __init__(self, name, energy_consumption):
         self.name = name
         self.energy_consumption = energy_consumption
-        self.energy = 100
-        self.inventory = []
+        self.energy = 100  # Initialize energy to 100%
+        self.inventory = []  # Robot's inventory for holding parts
         self.xp = 0
         self.level = 1
-        self.overclocked = False
-        self.overclock_duration = 10
+        self.overclocked = False  # Flag to indicate if the robot is overclocked
+        self.overclock_duration = 10  # Duration of overclock in seconds
 
     def display_info(self):
         print(f"Robot Name: {self.name}")
@@ -26,11 +26,11 @@ class Robot:
 
     def attack(self, part):
         if self.energy >= 10:
-            attack_power = 20 if self.overclocked else 10
+            attack_power = 20 if self.overclocked else 10  # Double attack power when overclocked
             print(f"{self.name} attacks {part.name} with energy consumption of {self.energy_consumption}.")
             self.energy -= 10
             part.reduce_defense(attack_power)
-            self.gain_xp(10)
+            self.gain_xp(10)  # Gain XP for successful attack
         else:
             print(f"{self.name} does not have enough energy to attack.")
 
@@ -97,9 +97,9 @@ class Robot:
     def repair_part(self, part_name):
         for part in self.inventory:
             if part.name == part_name:
-                if self.energy >= 20:
+                if self.energy >= 20:  # Require 20 energy to perform a repair
                     self.energy -= 20
-                    part.restore_defense()
+                    part.restore_defense()  # Call the method to restore defense
                     print(f"{self.name} repairs {part_name}, restoring some defense.")
                 else:
                     print(f"{self.name} does not have enough energy to repair {part_name}.")
@@ -107,7 +107,7 @@ class Robot:
         print(f"{self.name} does not have {part_name} in their inventory for repair.")
 
     def overclock(self):
-        if not self.overclocked and self.energy >= 30:
+        if not self.overclocked and self.energy >= 30:  # Require 30 energy to overclock
             self.energy -= 30
             self.overclocked = True
             print(f"{self.name} overclocks and gains double attack power for {self.overclock_duration} seconds.")
@@ -142,7 +142,7 @@ class Part:
         print(f"{self.name}'s defense is partially restored by 10.")
         self.defense_level += 10
 
-def main():
+if __name__ == "__main__":
     cam = Robot("Cam", "0.5%")
     cam_part = Part("Cam Part", 90, 100, "Yes")
 
@@ -175,6 +175,3 @@ def main():
     cam.attack(cam_part)  # Try an attack while overclocked
     cam.display_info()
     cam_part.display_info()
-
-if __name__ == "__main__":
-    main()
