@@ -12,6 +12,10 @@ class Robot:
         self.overclocked = False  # Flag to indicate if the robot is overclocked
         self.overclock_duration = 10  # Duration of overclock in seconds
 
+        # New attributes for the shield
+        self.shield = 0
+        self.max_shield = 50  # Maximum shield capacity
+
     def display_info(self):
         print(f"Robot Name: {self.name}")
         print(f"Energy Consumption: {self.energy_consumption}")
@@ -20,6 +24,7 @@ class Robot:
         print(f"XP: {self.xp}")
         if self.overclocked:
             print("Overclocked: Yes")
+        print(f"Shield: {self.shield}%")
 
     def change_energy_consumption(self, new_energy_consumption):
         self.energy_consumption = new_energy_consumption
@@ -27,10 +32,17 @@ class Robot:
     def attack(self, part):
         if self.energy >= 10:
             attack_power = 20 if self.overclocked else 10  # Double attack power when overclocked
-            print(f"{self.name} attacks {part.name} with energy consumption of {self.energy_consumption}.")
-            self.energy -= 10
-            part.reduce_defense(attack_power)
-            self.gain_xp(10)  # Gain XP for successful attack
+            if self.shield > 0:
+                absorbed_damage = min(self.shield, attack_power)
+                self.shield -= absorbed_damage
+                attack_power -= absorbed_damage
+                print(f"{self.name}'s shield absorbed {absorbed_damage} damage.")
+
+            if attack_power > 0:
+                print(f"{self.name} attacks {part.name} with energy consumption of {self.energy_consumption}.")
+                self.energy -= 10
+                part.reduce_defense(attack_power)
+                self.gain_xp(10)  # Gain XP for successful attack
         else:
             print(f"{self.name} does not have enough energy to attack.")
 
@@ -120,6 +132,11 @@ class Robot:
             print(f"{self.name} is already overclocked.")
         else:
             print(f"{self.name} does not have enough energy to overclock.")
+
+    # New method to recharge the shield
+    def recharge_shield(self, amount):
+        self.shield = min(self.max_shield, self.shield + amount)
+        print(f"{self.name} recharges the shield. Shield is now {self.shield}%.")
 
 class Part:
     def __init__(self, name, attack_level, defense_level, energy_consumption):
